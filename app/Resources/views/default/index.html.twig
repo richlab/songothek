@@ -1,0 +1,113 @@
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="wrapper">
+        <div id="container">
+            <div id="welcome">
+                <h1><span>Welcome to my so-called</span> Songothek</h1>
+                Here you can find songs, melodies, themes or ideas I have recorded over all those years ago.<br>
+                Feel free to use whatever you like, just pls. don't forget to mention where you got it from.<br>
+                All the best, <br>Rich
+            </div>
+
+            <div id="status">
+                <p>
+                    <svg id="icon-status" width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1671 566q0 40-28 68l-724 724-136 136q-28 28-68 28t-68-28l-136-136-362-362q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 295 656-657q28-28 68-28t68 28l136 136q28 28 28 68z" fill="#759E1A"/></svg>
+
+                <p>And these are them songs:
+
+                <form method="post">
+                    <select name="recording_type">
+                        <option value="0">recording-type</option>
+                        <option value="1">on the fly</option>
+                        <option value="2">demo</option>
+                        <option value="3">studio</option>
+                    </select>
+                    <select name="lang">
+                        <option value="0">language</option>
+                        <option value="en">english</option>
+                        <option value="de">deutsch</option>
+                    </select>
+                    <input type="submit" value="filter">
+                </form>
+
+                </p>
+
+                    {% for song in songs %}
+                     <code title="writer: {{ song.authors }}&#013;publisher: {{ song.publisher }}&#013;year: {{ song.year }}&#013;band: {{ song.band }}&#013;comment: {{ song.comment }}">
+                         {{ song.title }}
+                         <audio controls>
+                             <source src="{{ mp3_dir }}/{{ song.mp3 }}" type="audio/mpeg">
+                             Your browser does not support the audio tag.
+                         </audio>
+                     </code>
+                        <br>
+                    {% endfor %}
+
+                </p>
+                <p>
+                    {% for song in songsWithoutMp3 %}
+                    <p>
+                        <form method="post" enctype="multipart/form-data">
+                            <code>
+                                {{ song.title }} <br>
+                            </code>
+                            <input type="hidden" name="id" value="{{ song.id }}">
+                            <input type="file" name="mp3"><br>  
+                            band: <input type="text" maxlength="25" size="25" name="band"><br>
+                            year: <input type="text" maxlength="4" size="4" name="year"><br>
+                            recording-type: <select name="recording-type">
+                                <option value="1">rough</option>
+                                <option value="2">demo</option>
+                                <option value="3">studio</option>
+                            </select>
+                            <input type="submit" value="save">
+                        </form>
+                    </p>
+                    {% endfor %}
+                </p>
+                <p>
+                    create new one:
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    {{ form_end(form) }}
+                </p>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+    body { background: #F5F5F5; font: 18px/1.5 sans-serif; }
+    h1, h2 { line-height: 1.2; margin: 0 0 .5em; }
+    h1 { font-size: 36px; }
+    h2 { font-size: 21px; margin-bottom: 1em; }
+    p { margin: 0 0 1em 0; }
+    a { color: #0000F0; }
+    a:hover { text-decoration: none; }
+    code { background: #F5F5F5; max-width: 100px; padding: 2px 6px; word-wrap: break-word; }
+    audio { border-radius: 20px;
+        height: 23px;
+        margin-bottom: -7px;}
+    #wrapper { background: #FFF; margin: 1em auto; max-width: 800px; width: 95%; }
+    #container { padding: 2em; }
+    #welcome, #status { margin-bottom: 2em; }
+    #welcome h1 span { display: block; font-size: 75%; }
+    #icon-status, #icon-book { float: left; height: 64px; margin-right: 1em; margin-top: -4px; width: 64px; }
+    #icon-book { display: none; }
+
+    @media (min-width: 768px) {
+        #wrapper { width: 80%; margin: 2em auto; }
+        #icon-book { display: inline-block; }
+        #status a, #next a { display: block; }
+
+        @-webkit-keyframes fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }
+        @keyframes fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }
+        .sf-toolbar { opacity: 0; -webkit-animation: fade-in 1s .2s forwards; animation: fade-in 1s .2s forwards;}
+    }
+</style>
+{% endblock %}
