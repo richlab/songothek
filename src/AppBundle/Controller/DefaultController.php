@@ -81,13 +81,20 @@ class DefaultController extends Controller
             ->createQueryBuilder('s')
             ->where('s.mp3 is not NULL');
 
-        if ($request->request->has('recording_type')){
+        if ($request->request->has('recording_type')
+            && $request->request->get('recording_type')){
 
             $query->andWhere('s.recording_type ='. $request->request->get('recording_type'));
         }
-        if ($request->request->has('lang')){
+        if ($request->request->has('lang')
+            && $request->request->get('lang')){
 
             $query->andWhere('s.lang = \''. $request->request->get('lang') .'\'');
+        }
+        if ($request->request->has('year')
+            && $request->request->get('year')){
+
+            $query->andWhere('s.year = '. $request->request->get('year'));
         }
 
         $query->orderBy('s.title');
@@ -112,7 +119,8 @@ class DefaultController extends Controller
         return $this->render('default/index.html.twig', [
             'songs' => $songs,
             'songsWithoutMp3' => $songsWithoutMp3,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'years' => $songsRepository->findYears()
         ]);
     }
 }

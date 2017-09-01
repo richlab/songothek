@@ -10,4 +10,15 @@ namespace AppBundle\Repository;
  */
 class SongsRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function findYears(){
+
+        return self::createQueryBuilder('s')
+            ->select('s.year')
+            ->where('s.year != 0000')
+            ->groupBy('s.year')
+            ->orderBy('s.year')
+            ->getQuery()
+            ->getResult();
+    }
 }
