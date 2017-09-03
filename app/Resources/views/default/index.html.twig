@@ -8,7 +8,7 @@
             <div id="welcome">
                 <h1><span>Welcome to</span> Songothek</h1>
                 Here you'll find songs, melodies, themes or ideas I have recorded over all those years ago.<br>
-                If you are a musician feel free to use whatever you like, just pls. don't forget to mention where you got it from.<br>
+                (If you are a musician feel free to use whatever you like, just pls. don't forget to mention where you got it from.)<br>
                 All the best, <br>Rich
             </div>
 
@@ -21,19 +21,25 @@
                 <form method="post">
                     <select name="recording_type">
                         <option value="0">recording-type</option>
-                        <option value="1">rough</option>
-                        <option value="2">demo</option>
-                        <option value="3">studio</option>
+                        <option value="1"{%  if (selectedRecordingType == "1") %} selected="selected" {% endif %}>rough</option>
+                        <option value="2"{%  if (selectedRecordingType == "2") %} selected="selected" {% endif %}>demo</option>
+                        <option value="3"{%  if (selectedRecordingType == "3") %} selected="selected" {% endif %}>studio</option>
                     </select>
                     <select name="lang">
                         <option value="0">language</option>
-                        <option value="en">english</option>
-                        <option value="de">deutsch</option>
+                        <option value="en"{%  if (selectedLang == "en") %} selected="selected" {% endif %}>english</option>
+                        <option value="de"{%  if (selectedLang == "de") %} selected="selected" {% endif %}>deutsch</option>
                     </select>
                     <select name="year">
                         <option value="0">year</option>
                         {% for year in years %}
-                            <option value="{{ year.year }}">{{ year.year }}</option>
+                            <option value="{{ year.year }}"{%  if (selectedYear == year.year) %} selected="selected" {% endif %}>{{ year.year }}</option>
+                        {% endfor %}
+                    </select>
+                    <select name="band">
+                        <option value="0">band</option>
+                        {% for band in bands %}
+                            <option value="{{ band.band }}"{%  if (selectedBand == band.band) %} selected="selected" {% endif %}>{{ band.band }}</option>
                         {% endfor %}
                     </select>
                     <input type="submit" value="filter">
@@ -42,7 +48,7 @@
                 </p>
                 <p>
                     {% for song in songs %}
-                     <code title="writer: {{ song.authors }}&#013;publisher: {{ song.publisher }}&#013;year: {{ song.year }}&#013;band: {{ song.band }}&#013;comment: {{ song.comment }}">
+                     <code title="writer: {{ song.authors }}&#013;publisher: {{ song.publisher }}&#013;year: {{ song.year }}&#013;band: {{ song.band }}&#013;other version: {{ song.comment }}">
                          {{ song.title }}
                          <audio controls>
                              <source src="{{ mp3_dir }}/{{ song.mp3 }}" type="audio/mpeg">

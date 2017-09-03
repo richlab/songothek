@@ -21,4 +21,15 @@ class SongsRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findBands(){
+
+        return self::createQueryBuilder('s')
+            ->select('s.band')
+            ->where('s.band is NOT NULL')
+            ->groupBy('s.band')
+            ->orderBy('s.band')
+            ->getQuery()
+            ->getResult();
+    }
 }

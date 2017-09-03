@@ -13,6 +13,8 @@ class DefaultController extends Controller
 {
     /**
      * @Route("/", name="homepage")
+     * @param $request Request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request)
     {
@@ -81,20 +83,36 @@ class DefaultController extends Controller
             ->createQueryBuilder('s')
             ->where('s.mp3 is not NULL');
 
+        $selectedRecordingType = 0;
         if ($request->request->has('recording_type')
             && $request->request->get('recording_type')){
 
             $query->andWhere('s.recording_type ='. $request->request->get('recording_type'));
+            $selectedRecordingType = $request->request->get('recording_type');
         }
+
+        $selectedLang = "0";
         if ($request->request->has('lang')
             && $request->request->get('lang')){
 
             $query->andWhere('s.lang = \''. $request->request->get('lang') .'\'');
+            $selectedLang = $request->request->get('lang');
         }
+
+        $selectedYear = 0;
         if ($request->request->has('year')
             && $request->request->get('year')){
 
             $query->andWhere('s.year = '. $request->request->get('year'));
+            $selectedYear = $request->request->get('year');
+        }
+
+        $selectedBand = "0";
+        if ($request->request->has('band')
+            && $request->request->get('band')){
+
+            $query->andWhere('s.band = \''. str_replace("'", "''", $request->request->get('band')) .'\'');
+            $selectedBand = $request->request->get('band');
         }
 
         $query->orderBy('s.title');
@@ -120,7 +138,12 @@ class DefaultController extends Controller
             'songs' => $songs,
             'songsWithoutMp3' => $songsWithoutMp3,
             'form' => $form->createView(),
-            'years' => $songsRepository->findYears()
+            'years' => $songsRepository->findYears(),
+            'bands' => $songsRepository->findBands(),
+            'selectedRecordingType' => $selectedRecordingType,
+            'selectedLang' => $selectedLang,
+            'selectedYear' => $selectedYear,
+            'selectedBand' => $selectedBand
         ]);
     }
 }
