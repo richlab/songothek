@@ -40,7 +40,7 @@ class DefaultController extends Controller
             $song->setMp3($file->getClientOriginalName());
 
             $song->setYear($request->get('year'));
-            $song->setBand($request->get('band'));
+            $song->setBand($request->get('band') ? : NULL);
             $song->setRecordingType($request->get('recording-type'));
 
             $em = $this->getDoctrine()->getManager();
@@ -83,12 +83,15 @@ class DefaultController extends Controller
             ->createQueryBuilder('s')
             ->where('s.mp3 is not NULL');
 
+        $filtered = false;
+
         $selectedRecordingType = 0;
         if ($request->request->has('recording_type')
             && $request->request->get('recording_type')){
 
             $query->andWhere('s.recording_type ='. $request->request->get('recording_type'));
             $selectedRecordingType = $request->request->get('recording_type');
+            $filtered = true;
         }
 
         $selectedLang = "0";
@@ -97,6 +100,7 @@ class DefaultController extends Controller
 
             $query->andWhere('s.lang = \''. $request->request->get('lang') .'\'');
             $selectedLang = $request->request->get('lang');
+            $filtered = true;
         }
 
         $selectedYear = 0;
@@ -105,6 +109,7 @@ class DefaultController extends Controller
 
             $query->andWhere('s.year = '. $request->request->get('year'));
             $selectedYear = $request->request->get('year');
+            $filtered = true;
         }
 
         $selectedBand = "0";
@@ -113,13 +118,30 @@ class DefaultController extends Controller
 
             $query->andWhere('s.band = \''. str_replace("'", "''", $request->request->get('band')) .'\'');
             $selectedBand = $request->request->get('band');
+            $filtered = true;
         }
 
         $query->orderBy('s.title');
 
-        $songs = $query
+        $songs = $filtered ? $query
             ->getQuery()
-            ->getResult();
+            ->getResult() : Null; // too much songs if not filtered!
+
+        /**
+         * search
+         */
+        $pattern = '';
+        if ($request->request->has('pattern')
+            && $request->request->get('pattern')){
+
+            $pattern = $request->request->get('pattern');
+            $query->andWhere('s.title LIKE \'%'. $pattern .'%\'');
+
+            $songs = $query
+                ->getQuery()
+                ->getResult();
+        }
+
 
         /**
          * missing mp3s
@@ -136,6 +158,7 @@ class DefaultController extends Controller
          */
         return $this->render('default/index.html.twig', [
             'songs' => $songs,
+            'number' => count($songs) ? : 'please use filter or search',
             'songsWithoutMp3' => $songsWithoutMp3,
             'form' => $form->createView(),
             'years' => $songsRepository->findYears(),
@@ -143,7 +166,8 @@ class DefaultController extends Controller
             'selectedRecordingType' => $selectedRecordingType,
             'selectedLang' => $selectedLang,
             'selectedYear' => $selectedYear,
-            'selectedBand' => $selectedBand
+            'selectedBand' => $selectedBand,
+            'pattern' => $pattern
         ]);
     }
 }

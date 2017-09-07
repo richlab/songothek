@@ -13,28 +13,21 @@
             </div>
 
             <div id="status">
-
+                <p>And these are them songs ({{ number }}):
                     <svg id="icon-status" width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1671 566q0 40-28 68l-724 724-136 136q-28 28-68 28t-68-28l-136-136-362-362q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 295 656-657q28-28 68-28t68 28l136 136q28 28 28 68z" fill="#759E1A"/></svg>
+                    <br><br>
 
-                <p>And these are them songs:
-
-                <form method="post">
-                    <select name="recording_type">
-                        <option value="0">recording-type</option>
-                        <option value="1"{%  if (selectedRecordingType == "1") %} selected="selected" {% endif %}>rough</option>
-                        <option value="2"{%  if (selectedRecordingType == "2") %} selected="selected" {% endif %}>demo</option>
-                        <option value="3"{%  if (selectedRecordingType == "3") %} selected="selected" {% endif %}>studio</option>
-                    </select>
-                    <select name="lang">
-                        <option value="0">language</option>
-                        <option value="en"{%  if (selectedLang == "en") %} selected="selected" {% endif %}>english</option>
-                        <option value="de"{%  if (selectedLang == "de") %} selected="selected" {% endif %}>deutsch</option>
-                    </select>
+            <form method="post">
                     <select name="year">
                         <option value="0">year</option>
                         {% for year in years %}
                             <option value="{{ year.year }}"{%  if (selectedYear == year.year) %} selected="selected" {% endif %}>{{ year.year }}</option>
                         {% endfor %}
+                    </select>
+                    <select name="lang">
+                        <option value="0">language</option>
+                        <option value="en"{%  if (selectedLang == "en") %} selected="selected" {% endif %}>english</option>
+                        <option value="de"{%  if (selectedLang == "de") %} selected="selected" {% endif %}>deutsch</option>
                     </select>
                     <select name="band">
                         <option value="0">band</option>
@@ -42,7 +35,20 @@
                             <option value="{{ band.band }}"{%  if (selectedBand == band.band) %} selected="selected" {% endif %}>{{ band.band }}</option>
                         {% endfor %}
                     </select>
+                    <select name="recording_type">
+                        <option value="0">recording-type</option>
+                        <option value="1"{%  if (selectedRecordingType == "1") %} selected="selected" {% endif %}>rough</option>
+                        <option value="2"{%  if (selectedRecordingType == "2") %} selected="selected" {% endif %}>demo</option>
+                        <option value="3"{%  if (selectedRecordingType == "3") %} selected="selected" {% endif %}>studio</option>
+                        <option value="4"{%  if (selectedRecordingType == "4") %} selected="selected" {% endif %}>live</option>
+                    </select>
                     <input type="submit" value="filter">
+                </form>
+
+                <form method="post" name="search">
+                    <input type="text" name="pattern" value="{{ pattern }}" placeholder="title">
+                    <input type="submit" value="search">
+                    <input type="reset" value="reset">
                 </form>
 
                 </p>
@@ -60,6 +66,7 @@
 
                 </p>
 
+                <!-- Admin-Section -->
                 <p>
                     create new one:
                     {{ form_start(form) }}
@@ -81,6 +88,7 @@
                             <option value="1">rough</option>
                             <option value="2">demo</option>
                             <option value="3">studio</option>
+                            <option value="4">live</option>
                         </select>
                         <input type="submit" value="save">
                     </form>

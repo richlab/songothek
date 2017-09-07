@@ -68,7 +68,7 @@ class Songs
      * @ORM\Column(name="mp3", type="string", length=85, nullable=true)
      *
      * @Assert\NotBlank(message="Please, upload a valid mp3-file.")
-     * @Assert\File(mimeTypes={ "audio/mpeg" })
+     * @Assert\File(mimeTypes={ "audio/mpeg","application/octet-stream" })
      */
     private $mp3;
 
