@@ -24,7 +24,7 @@ class SongsType extends AbstractType
             ->add('lang')
             ->add('comment')
             ->add('mp3', FileType::class)
-            ->add('recording_type')
+            ->add('recording')
             ->add('year')
             ->add('band')
             ->add('save', SubmitType::class, array('label' => 'Create Song'));

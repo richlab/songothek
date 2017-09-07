@@ -85,12 +85,12 @@ class DefaultController extends Controller
 
         $filtered = false;
 
-        $selectedRecordingType = 0;
-        if ($request->request->has('recording_type')
-            && $request->request->get('recording_type')){
+        $selectedRecording = 0;
+        if ($request->request->has('recording')
+            && $request->request->get('recording')){
 
-            $query->andWhere('s.recording_type ='. $request->request->get('recording_type'));
-            $selectedRecordingType = $request->request->get('recording_type');
+            $query->andWhere('s.recording ='. $request->request->get('recording'));
+            $selectedRecording = $request->request->get('recording');
             $filtered = true;
         }
 
@@ -163,7 +163,7 @@ class DefaultController extends Controller
             'form' => $form->createView(),
             'years' => $songsRepository->findYears(),
             'bands' => $songsRepository->findBands(),
-            'selectedRecordingType' => $selectedRecordingType,
+            'selectedRecording' => $selectedRecording,
             'selectedLang' => $selectedLang,
             'selectedYear' => $selectedYear,
             'selectedBand' => $selectedBand,

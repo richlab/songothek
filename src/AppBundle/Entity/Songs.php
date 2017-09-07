@@ -75,9 +75,9 @@ class Songs
     /**
      * @var integer
      *
-     * @ORM\Column(name="recording_type", type="integer")
+     * @ORM\Column(name="recording", type="integer")
      */
-    private $recording_type;
+    private $recording;
 
     /**
      * @var integer
@@ -249,17 +249,17 @@ class Songs
     /**
      * @return int
      */
-    public function getRecordingType()
+    public function getRecording()
     {
-        return $this->recording_type;
+        return $this->recording;
     }
 
     /**
-     * @param int recording_type
+     * @param int recording
      */
-    public function setRecordingType($recording_type)
+    public function setRecording($recording)
     {
-        $this->recording_type = $recording_type;
+        $this->recording = $recording;
     }
 
     /**
