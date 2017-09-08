@@ -123,9 +123,9 @@ class DefaultController extends Controller
 
         $query->orderBy('s.title');
 
-        $songs = $filtered ? $query
+        $songs = $query
             ->getQuery()
-            ->getResult() : Null; // too much songs if not filtered!
+            ->getResult();
 
         /**
          * search
