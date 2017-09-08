@@ -53,18 +53,24 @@
 
                 <p>
                     {% for song in songs %}
+
+                        {% if (file_exists(mp3_dir_absolute~'/'~song.mp3)) %}
+
                      <code title="writer: {{ song.authors }}&#013;publisher: {{ song.publisher }}&#013;year: {{ song.year }}&#013;band: {{ song.band }}&#013;other version: {{ song.comment }}">
                          {{ song.title }}
-                         <audio controls>
+                         <audio preload="none">
                              <source src="{{ mp3_dir }}/{{ song.mp3 }}" type="audio/mpeg">
                              Your browser does not support the audio tag.
                          </audio>
                      </code>
                         <br>
+                        {% endif %}
                     {% endfor %}
 
                 </p>
 
+
+            {% if (app.environment == 'dev') %}
                 <!-- Admin-Section -->
                 <p>
                     create new one:
@@ -93,6 +99,8 @@
                     </form>
                     </p>
                     {% endfor %}
+
+            {% endif %}
             </div>
 
         </div>
@@ -129,4 +137,14 @@
         .sf-toolbar { opacity: 0; -webkit-animation: fade-in 1s .2s forwards; animation: fade-in 1s .2s forwards;}
     }
 </style>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/audiojs/audio.min.js"></script>
+    <script>
+        audiojs.events.ready(function() {
+            var as = audiojs.createAll();
+        });
+    </script>
+
 {% endblock %}

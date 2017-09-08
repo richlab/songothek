@@ -11,10 +11,6 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Datenbank: `songs`
@@ -681,26 +677,4 @@ INSERT INTO `songs` (`id`, `title`, `authors`, `gema`, `publisher`, `lyrics`, `l
 (801, 'Believe, somehow', 'Putz', 0, NULL, NULL, 'en', NULL, 'Believe, somehow_2.mp3', 2, 2017, NULL),
 (802, 'Ausgerechnet ich', 'Putz', 1, 'modernsoul/Universal', NULL, 'de', NULL, 'AUSGERECHNET_ICH.mp3', 3, 2005, 'Lenz');
 
---
--- Indizes der exportierten Tabellen
---
 
---
--- Indizes für die Tabelle `songs`
---
-ALTER TABLE `songs`
-  ADD PRIMARY KEY (`id`);
-ALTER TABLE `songs` ADD FULLTEXT KEY `titel` (`title`);
-
---
--- AUTO_INCREMENT für exportierte Tabellen
---
-
---
--- AUTO_INCREMENT für Tabelle `songs`
---
-ALTER TABLE `songs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=804;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

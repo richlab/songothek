@@ -40,7 +40,8 @@ twig:
     form_themes:
       - 'bootstrap_3_layout.html.twig'
     globals:
-        mp3_dir: '%mp3_dir_twig%'
+        mp3_dir: '%mp3_dir%'
+        mp3_dir_absolute: '%mp3_dir_absolute%'
 
 # Doctrine Configuration
 doctrine:

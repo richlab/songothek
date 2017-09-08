@@ -41,7 +41,7 @@ class DefaultController extends Controller
 
             $song->setYear($request->get('year'));
             $song->setBand($request->get('band') ? : NULL);
-            $song->setRecordingType($request->get('recording-type'));
+            $song->setRecording($request->get('recording'));
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($song);
