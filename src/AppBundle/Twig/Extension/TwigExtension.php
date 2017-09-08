@@ -15,7 +15,7 @@ class TwigExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            'file_exists' => new \Twig_Function_Function('file_exists'),
+            new \Twig_SimpleFunction('file_exists', 'file_exists'),
         );
     }
 

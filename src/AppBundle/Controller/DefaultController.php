@@ -170,4 +170,16 @@ class DefaultController extends Controller
             'pattern' => $pattern
         ]);
     }
+
+    /**
+     * @Route("/imprint", name="imprint")
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function imprintAction()
+    {
+        /**
+         * render
+         */
+        return $this->render('default/imprint.html.twig');
+    }
 }
