@@ -7,16 +7,17 @@
         <div id="container">
             <div id="welcome">
                 <h1><span>Welcome to</span>Songothek</h1>
-                Here you'll find songs, melodies, themes or ideas recorded over all those years ago.<br>
+                <img src="{{ asset('igge.jpeg') }}" id="pic" title="1977">
+                Here you'll find almost every song, finished or unfinished, recorded over all those years ago.<br>
                 Have fun, <br>Rich
             </div>
 
             <div id="status">
-                <svg id="icon-status" width="1792" height="1792" viewBox="0 0 1792 1792"
-                     xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1671 566q0 40-28 68l-724 724-136 136q-28 28-68 28t-68-28l-136-136-362-362q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 295 656-657q28-28 68-28t68 28l136 136q28 28 28 68z"
-                          fill="#759E1A"/>
-                </svg>
+
+                <form method="post" name="search">
+                    <input type="text" name="pattern" value="{{ pattern }}" placeholder="title">
+                    <input type="submit" value="search">
+                </form>
 
                 <form method="post">
                     <select name="year">
@@ -51,12 +52,6 @@
                     </select>
                     <input type="submit" value="filter">
                 </form>
-
-                <form method="post" name="search">
-                    <input type="text" name="pattern" value="{{ pattern }}" placeholder="title">
-                    <input type="submit" value="search">
-                </form>
-
             </div>
 
             <p>
@@ -71,7 +66,34 @@
                             <source src="{{ mp3_dir }}/{{ song.mp3 }}" type="audio/mpeg">
                             Your browser does not support the audio tag.
                         </audio>
-                        <br>
+                        <span class="infos"><br>
+                            writer: {{ song.authors }}<br>
+                            {% if (song.publisher) %}
+                                publisher: {{ song.publisher }}<br>
+                            {% endif %}
+                            {% if (song.label) %}
+                                label: {{ song.label }}<br>
+                            {% endif %}
+                                year: {{ song.year }}<br>
+                            {% if (song.band) %}
+                                band: {{ song.band }}<br>
+                            {% endif %}
+                            {% if (song.album) %}
+                                album: {{ song.album }}<br>
+                            {% endif %}
+                            {% if (song.comment) %}
+                                other version: {{ song.comment }}<br>
+                            {% endif %}
+                            {% if song.recording == constant('RECORDING_ROUGH', song)%}
+                                recording: rough
+                            {% elseif song.recording == constant('RECORDING_DEMO', song)%}
+                                recording: demo
+                            {% elseif song.recording == constant('RECORDING_STUDIO', song)%}
+                                recording: studio
+                            {% elseif song.recording == constant('RECORDING_LIVE', song)%}
+                                recording: live
+                            {% endif %}
+                        </span><br>
                     {% endif %}
                 {% endfor %}
                 <!--{{ number }} results-->
@@ -124,7 +146,7 @@
 {% block stylesheets %}
     <style>
         body {
-            background: #F5F5F5;
+            background: #ebebeb;
             font: 18px/1.5 sans-serif;
         }
 
@@ -160,6 +182,12 @@
             word-wrap: break-word;
         }
 
+        span.infos{
+            display: block;
+            line-height: 10px;
+            font-size: 10px;
+        }
+
         audio {
             border-radius: 20px;
             height: 23px;
@@ -191,16 +219,15 @@
             font-size: 75%;
         }
 
-        #icon-status, #icon-book {
+        #pic {
             float: left;
-            height: 64px;
             margin-right: 1em;
             margin-top: -4px;
-            width: 64px;
+            width: 186px;
         }
 
-        #icon-book {
-            display: none;
+        input[name="pattern"]{
+            width: 180px;
         }
 
         @media (min-width: 768px) {
@@ -209,9 +236,6 @@
                 margin: 2em auto;
             }
 
-            #icon-book {
-                display: inline-block;
-            }
 
             #status a, #next a {
                 display: block;

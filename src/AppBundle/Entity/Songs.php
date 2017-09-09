@@ -13,6 +13,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Songs
 {
+    const RECORDING_ROUGH = 1;
+    const RECORDING_DEMO = 2;
+    const RECORDING_STUDIO = 3;
+    const RECORDING_LIVE = 4;
+
     /**
      * @var string
      *
@@ -40,6 +45,13 @@ class Songs
      * @ORM\Column(name="publisher", type="string", length=85, nullable=true)
      */
     private $publisher;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="label", type="string", length=85, nullable=true)
+     */
+    private $label;
 
     /**
      * @var string
@@ -101,6 +113,13 @@ class Songs
      * @ORM\Column(name="band", type="string", length=25, nullable=true)
      */
     private $band;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="album", type="string", length=85, nullable=true)
+     */
+    private $album;
 
     /**
      * @return string
@@ -292,6 +311,38 @@ class Songs
     public function setBand($band)
     {
         $this->band = $band;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->label;
+    }
+
+    /**
+     * @param string $label
+     */
+    public function setLabel($label)
+    {
+        $this->label = $label;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAlbum()
+    {
+        return $this->album;
+    }
+
+    /**
+     * @param string $album
+     */
+    public function setAlbum($album)
+    {
+        $this->album = $album;
     }
 
 

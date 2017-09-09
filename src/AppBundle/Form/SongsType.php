@@ -20,6 +20,7 @@ class SongsType extends AbstractType
             ->add('authors')
             ->add('gema')
             ->add('publisher')
+            ->add('label')
             ->add('lyrics')
             ->add('lang')
             ->add('comment')
@@ -27,6 +28,7 @@ class SongsType extends AbstractType
             ->add('recording')
             ->add('year')
             ->add('band')
+            ->add('album')
             ->add('save', SubmitType::class, array('label' => 'Create Song'));
     }
     
