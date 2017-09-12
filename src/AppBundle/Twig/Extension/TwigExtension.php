@@ -16,6 +16,7 @@ class TwigExtension extends \Twig_Extension
     {
         return array(
             new \Twig_SimpleFunction('file_exists', 'file_exists'),
+            new \Twig_SimpleFunction('str_replace', 'str_replace'),
         );
     }
 

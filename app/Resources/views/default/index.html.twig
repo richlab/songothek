@@ -8,18 +8,16 @@
             <div id="welcome">
                 <h1><span>Welcome to</span>Songothek</h1>
                 <img src="{{ asset('igge.jpeg') }}" id="pic" title="1977">
-                Here you'll find almost every song, finished or unfinished, recorded over all those years ago.<br>
-                Have fun, <br>Rich
+                It's my personal collection of almost every song, finished or unfinished, recorded over all those years ago.<br>
+                Cheers, Rich
             </div>
 
             <div id="status">
 
-                <form method="post" name="search">
-                    <input type="text" name="pattern" value="{{ pattern }}" placeholder="title">
-                    <input type="submit" value="search">
-                </form>
-
                 <form method="post">
+
+                    <input type="text" name="pattern" value="{{ pattern }}" placeholder="title">
+                    <br>
                     <select name="year">
                         <option value="0">year</option>
                         {% for year in years %}
@@ -49,8 +47,9 @@
                         </option>
                         <option value="4"{% if (selectedRecording == "4") %} selected="selected" {% endif %}>live
                         </option>
-                    </select>
-                    <input type="submit" value="filter">
+                    </select><br>
+
+                    <input type="submit" value="search">
                 </form>
             </div>
 
@@ -59,7 +58,7 @@
 
                     {% if (file_exists(mp3_dir_absolute~'/'~song.mp3)) %}
 
-                        <code title="writer: {{ song.authors }}&#013;publisher: {{ song.publisher }}&#013;year: {{ song.year }}&#013;band: {{ song.band }}&#013;other version: {{ song.comment }}">
+                        <code class="title">
                             {{ song.title }}
                         </code>
                         <audio preload="none">
@@ -67,32 +66,44 @@
                             Your browser does not support the audio tag.
                         </audio>
                         <span class="infos"><br>
-                            writer: {{ song.authors }}<br>
+                            {{ song.year }}<br>
+
                             {% if (song.publisher) %}
                                 publisher: {{ song.publisher }}<br>
                             {% endif %}
+
                             {% if (song.label) %}
                                 label: {{ song.label }}<br>
                             {% endif %}
-                                year: {{ song.year }}<br>
+
                             {% if (song.band) %}
                                 band: {{ song.band }}<br>
                             {% endif %}
+
                             {% if (song.album) %}
                                 album: {{ song.album }}<br>
                             {% endif %}
+
                             {% if (song.comment) %}
                                 other version: {{ song.comment }}<br>
                             {% endif %}
+
                             {% if song.recording == constant('RECORDING_ROUGH', song)%}
-                                recording: rough
+                                recording: rough<br>
                             {% elseif song.recording == constant('RECORDING_DEMO', song)%}
-                                recording: demo
+                                recording: demo<br>
                             {% elseif song.recording == constant('RECORDING_STUDIO', song)%}
-                                recording: studio
+                                recording: studio<br>
                             {% elseif song.recording == constant('RECORDING_LIVE', song)%}
-                                recording: live
+                                recording: live<br>
                             {% endif %}
+
+                            {% if (song.authors != 'R.Putz') %}
+                                co-authors: {{ str_replace('/R.Putz', '', song.authors) }}<br>
+                            {% endif %}
+
+                            gema: {{ song.gema ? 'yes' : 'no' }}
+
                         </span><br>
                     {% endif %}
                 {% endfor %}
@@ -147,7 +158,9 @@
     <style>
         body {
             background: #ebebeb;
-            font: 18px/1.5 sans-serif;
+            font: 14px/1.5 sans-serif;
+            /*background-image: url("245981.jpg");
+            background-repeat: repeat;*/
         }
 
         h1, h2 {
@@ -156,7 +169,8 @@
         }
 
         h1 {
-            font-size: 36px;
+            font-size: 39px;
+            font-weight: normal;
         }
 
         h2 {
@@ -182,10 +196,14 @@
             word-wrap: break-word;
         }
 
+        code.title{
+            font-size: 18px;
+        }
+
         span.infos{
             display: block;
-            line-height: 10px;
-            font-size: 10px;
+            line-height: 11px;
+            font-size: 11px;
         }
 
         audio {
@@ -197,6 +215,19 @@
         .audiojs{
             background: none;
             background-image: none;
+            width: 95%;
+        }
+
+        .audiojs .play-pause{
+            width:5%;
+        }
+
+        .audiojs .scrubber{
+            width: 70%;
+        }
+
+        .audiojs .time{
+            width: 10%;
         }
 
         #wrapper {
@@ -210,24 +241,75 @@
             padding: 2em;
         }
 
+        #welcome{
+            height: 200px;
+        }
+
         #welcome, #status {
             margin-bottom: 2em;
         }
 
         #welcome h1 span {
             display: block;
-            font-size: 75%;
+            font-size: 54%;
         }
 
         #pic {
             float: left;
             margin-right: 1em;
-            margin-top: -4px;
+            margin-top: -12px;
             width: 186px;
+        }
+
+
+        input{
+            font-size: 14px;
         }
 
         input[name="pattern"]{
             width: 180px;
+            height: 22px;
+        }
+
+        input[type="submit"]{
+            -webkit-appearance: none;
+            height: 30px;
+            border: none;
+            background: #ebebeb;
+        }
+
+        select{
+            height:30px;
+            font-size: 14px;
+        }
+
+        select {
+            border: 1px solid #111;
+            background: transparent;
+            padding: 5px 35px 5px 5px;
+            margin: 5px 0px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            height: 30px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+
+        /* CAUTION: IE hackery ahead */
+
+
+        select::-ms-expand {
+            display: none; /* remove default arrow in IE 10 and 11 */
+        }
+
+        /* target Internet Explorer 9 to undo the custom arrow */
+        @media screen and (min-width:0\0) {
+            select {
+                background:none\9;
+                padding: 5px\9;
+            }
         }
 
         @media (min-width: 768px) {

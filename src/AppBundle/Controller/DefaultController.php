@@ -121,27 +121,22 @@ class DefaultController extends Controller
             $filtered = true;
         }
 
-        $query->orderBy('s.title');
-
-        $songs = $query
-            ->getQuery()
-            ->getResult();
 
         /**
          * search
          */
         $pattern = '';
         if ($request->request->has('pattern')
-            && $request->request->get('pattern')){
+            && trim($request->request->get('pattern'))){
 
             $pattern = $request->request->get('pattern');
             $query->andWhere('s.title LIKE \'%'. $pattern .'%\'');
-
-            $songs = $query
-                ->getQuery()
-                ->getResult();
         }
 
+        $query->orderBy('s.title');
+        $songs = $query
+            ->getQuery()
+            ->getResult();
 
         /**
          * missing mp3s
