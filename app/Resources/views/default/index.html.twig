@@ -8,7 +8,7 @@
             <div id="welcome">
                 <h1><span>Welcome to</span>Songothek</h1>
                 <img src="{{ asset('igge.jpg') }}" id="pic" title="1977">
-                my personal collection of almost every song, finished or unfinished, recorded over all those years ago..<br>
+                My personal collection of almost every song, finished or unfinished, recorded over all those years ago..<br>
                 cheers,<br>
                 Rich
             </div>
@@ -49,8 +49,7 @@
                         <option value="4"{% if (selectedRecording == "4") %} selected="selected" {% endif %}>live
                         </option>
                     </select><br>
-
-                    <input type="submit" value="search">
+                    <input type="submit" value="search"> <input type="button" id="reset" value="reset">
                 </form>
             </div>
 
@@ -158,7 +157,7 @@
 {% block stylesheets %}
     <style>
         body {
-            background: #ebebeb;
+            //background: #ebebeb;
             font: 14px/1.5 sans-serif;
             /*background-image: url("245981.jpg");
             background-repeat: repeat;*/
@@ -195,6 +194,8 @@
             max-width: 100px;
             padding: 2px 6px;
             word-wrap: break-word;
+
+            //color: #4a6a81;
         }
 
         code.title{
@@ -243,16 +244,23 @@
         }
 
         #welcome{
-            height: 200px;
+            height: 180px;
         }
 
         #welcome, #status {
             margin-bottom: 2em;
         }
 
+        #welcome h1 {
+            font-size: 38px;
+            font-style: italic;
+        }
+
         #welcome h1 span {
             display: block;
-            font-size: 54%;
+            color: #000;
+            font-size: 14px;
+            font-style: normal;
         }
 
         #pic {
@@ -276,12 +284,12 @@
             -webkit-appearance: none;
             height: 30px;
             border: none;
-            background: #ebebeb;
         }
 
-        select{
-            height:30px;
-            font-size: 14px;
+        input[type="button"]{
+            -webkit-appearance: none;
+            height: 30px;
+            border: none;
         }
 
         select {
@@ -355,10 +363,21 @@
 
 {% block javascripts %}
     <script src="/audiojs/audio.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+            crossorigin="anonymous">
+    </script>
     <script>
         audiojs.events.ready(function () {
             var as = audiojs.createAll();
         });
     </script>
-
+    <script>
+        $('input#reset').click(function(){
+            $('select').each(function(){
+                $(this).val(0);
+            });
+            $('input[name="pattern"]').val("");
+        });
+    </script>
 {% endblock %}
