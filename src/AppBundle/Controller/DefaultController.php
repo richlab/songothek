@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class DefaultController extends Controller
 {
@@ -18,7 +19,7 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-
+        $session = new Session();
         $songsRepository = $this->getDoctrine()->getRepository(Songs::class);
 
         /**
@@ -64,8 +65,10 @@ class DefaultController extends Controller
             /** @var UploadedFile $file */
             $file = $song->getMp3();
 
+            $target = $this->get('kernel')->getRootDir() . '/../web' . $this->getParameter('mp3_dir');
+
             $file->move(
-                $this->getParameter('mp3_dir'),
+                $target,
                 $file->getClientOriginalName()
             );
             $song->setMp3($file->getClientOriginalName());
@@ -83,7 +86,6 @@ class DefaultController extends Controller
             ->createQueryBuilder('s')
             ->where('s.mp3 is not NULL');
 
-        $filtered = false;
 
         $selectedRecording = 0;
         if ($request->request->has('recording')
@@ -91,7 +93,6 @@ class DefaultController extends Controller
 
             $query->andWhere('s.recording ='. $request->request->get('recording'));
             $selectedRecording = $request->request->get('recording');
-            $filtered = true;
         }
 
         $selectedLang = "0";
@@ -100,7 +101,6 @@ class DefaultController extends Controller
 
             $query->andWhere('s.lang = \''. $request->request->get('lang') .'\'');
             $selectedLang = $request->request->get('lang');
-            $filtered = true;
         }
 
         $selectedYear = 0;
@@ -109,7 +109,6 @@ class DefaultController extends Controller
 
             $query->andWhere('s.year = '. $request->request->get('year'));
             $selectedYear = $request->request->get('year');
-            $filtered = true;
         }
 
         $selectedBand = "0";
@@ -118,7 +117,6 @@ class DefaultController extends Controller
 
             $query->andWhere('s.band = \''. str_replace("'", "''", $request->request->get('band')) .'\'');
             $selectedBand = $request->request->get('band');
-            $filtered = true;
         }
 
 
@@ -162,9 +160,12 @@ class DefaultController extends Controller
             'selectedLang' => $selectedLang,
             'selectedYear' => $selectedYear,
             'selectedBand' => $selectedBand,
-            'pattern' => $pattern
+            'pattern' => $pattern,
+            'loggedIn' => $session->get('loggedIn')
         ]);
     }
+
+
 
     /**
      * @Route("/imprint", name="imprint")

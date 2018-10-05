@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Request;
 
 
-class SecurityController extends  Controller
+class LoginController extends  Controller
 {
 
     /**
@@ -26,20 +26,30 @@ class SecurityController extends  Controller
     {
         $session = new Session();
 
-        dump($_POST);
-        if ($request->request->has('username')){
+        if ($request->request->has('_username')){
 
-
-            if ($request->request->get('username') == 'rich' && $request->request->get('password') == 'digger'){
+            if ($request->request->get('_username') == 'digger' && $request->request->get('_password') == 'alder'){
                 $session->set('loggedIn', true);
 
-                $this->redirectToRoute('/');
+                return $this->redirectToRoute('homepage');
             }
-
         }
 
         return $this->render('default/login.html.twig', array(
         ));
+    }
+
+    /**
+     * @Route("/logout", name="logout")
+     * @param $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function logout(Request $request)
+    {
+        $session = new Session();
+        $session->set('loggedIn', false);
+
+        return $this->redirectToRoute('homepage');
     }
 
 }

@@ -53,6 +53,19 @@
                 </form>
             </div>
 
+            {% if (loggedIn) %}
+                <!-- Admin-Section -->
+
+                create new one:
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                {{ form_end(form) }}
+
+                <button id="logout" onclick="document.location.href='/logout'">logout</button>
+                <p>&nbsp;</p>
+
+            {% endif %}
+
             <p>
                 {% for song in songs %}
 
@@ -113,14 +126,7 @@
 
 
             {% if (app.environment == 'dev') %}
-                <!-- Admin-Section -->
 
-                create new one:
-                {{ form_start(form) }}
-                {{ form_widget(form) }}
-                {{ form_end(form) }}
-
-                <br>
                 {% for song in songsWithoutMp3 %}
 
                     <div>
@@ -147,7 +153,7 @@
 
             {% endif %}
 
-            <small><a href="{{ path('imprint') }}">Impressum</a></small>
+            <small><a href="{{ path('imprint') }}">Impressum & Datenschutz</a></small>
         </div>
 
     </div>
