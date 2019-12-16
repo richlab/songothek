@@ -17,3 +17,5 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt
+    mp3_dir_absolute: '%kernel.project_dir%/web/mp3s'
+    mp3_dir: '/mp3s'
