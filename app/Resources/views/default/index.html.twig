@@ -6,7 +6,7 @@
     <div id="wrapper">
         <div id="container">
             <div id="welcome">
-                <h1><span>Welcome to Rich's</span>Songothek</h1>
+                <h1><span>Rich's</span>Songothek</h1>
                 <img alt="Me, 1977" src="{{ asset('igge.jpg') }}" id="pic" title="1977">
                 My collection of almost every song, mostly unfinished, recorded over<br>all those years ago..
             </div>
@@ -34,6 +34,12 @@
                         <option value="0">band</option>
                         {% for band in bands %}
                             <option value="{{ band.band }}"{% if (selectedBand == band.band) %} selected="selected" {% endif %}>{{ band.band }}</option>
+                        {% endfor %}
+                    </select>
+                    <select name="album">
+                        <option value="0">album</option>
+                        {% for album in albums %}
+                            <option value="{{ album.album }}"{% if (selectedAlbum == album.album) %} selected="selected" {% endif %}>{{ album.album }}</option>
                         {% endfor %}
                     </select>
                     <select name="recording">

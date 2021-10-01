@@ -32,4 +32,15 @@ class SongsRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findAlbums(){
+
+        return self::createQueryBuilder('s')
+            ->select('s.album')
+            ->where('s.album is NOT NULL')
+            ->groupBy('s.album')
+            ->orderBy('s.album')
+            ->getQuery()
+            ->getResult();
+    }
 }

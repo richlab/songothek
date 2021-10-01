@@ -119,6 +119,14 @@ class DefaultController extends Controller
             $selectedBand = $request->request->get('band');
         }
 
+        $selectedAlbum = "0";
+        if ($request->request->has('album')
+            && $request->request->get('album')){
+
+            $query->andWhere('s.album = \''. str_replace("'", "''", $request->request->get('album')) .'\'');
+            $selectedAlbum = $request->request->get('album');
+        }
+
 
         /**
          * search
@@ -156,10 +164,12 @@ class DefaultController extends Controller
             'form' => $form->createView(),
             'years' => $songsRepository->findYears(),
             'bands' => $songsRepository->findBands(),
+            'albums' => $songsRepository->findAlbums(),
             'selectedRecording' => $selectedRecording,
             'selectedLang' => $selectedLang,
             'selectedYear' => $selectedYear,
             'selectedBand' => $selectedBand,
+            'selectedAlbum' => $selectedAlbum,
             'pattern' => $pattern,
             'loggedIn' => $session->get('loggedIn')
         ]);
